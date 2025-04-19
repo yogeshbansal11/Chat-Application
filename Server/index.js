@@ -4,6 +4,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./Routes/Authroute.js";
+import contactsRoutes from "./Routes/ContactRoutes.js";
+import setupSocket from "./socket.js";
 
 dotenv.config();
 
@@ -17,12 +19,13 @@ const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
+setupSocket(server)
+
+
 mongoose
   .connect(databaseURL)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
-
-
 
   app.use(cors({
     origin: process.env.ORIGIN,  // ✅ Use the correct environment variable
@@ -35,25 +38,5 @@ mongoose
   app.use(cookieParser())
   app.use(express.json());
   app.use("/api/auth",authRoutes)
+  app.use("/api/contacts",contactsRoutes)
 
-
-
-
-    // app.use(cors({
-  //   origin:[process.env.ORIGIN],
-  //   methods:["GET","POST","PUT","DELETE","PATCH"],
-  //   credentials:true,
-  // }))
-
-
-  // app.use(cors({
-  //   origin: allowedOrigins,
-  //   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  //   credentials: true,
-  // }));
-  
-  // app.use(cors({
-  //   origin: ["http://localhost:5173", "http://localhost:5174"],
-  //   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  //   credentials: true,
-  // }));

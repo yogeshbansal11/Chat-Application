@@ -5,7 +5,8 @@ import {
   getUserInfo,
   updateProfile,
   addProfileImage,
-  removeProfileImage
+  removeProfileImage,
+  logout
 } from "../Controllers/Authcontroller.js";
 import { verifyToken } from "../Middlewares/Authmiddleware.js";
 import multer from "multer";
@@ -25,5 +26,6 @@ authRoutes.post(
   addProfileImage
 );
 authRoutes.delete("/remove-profile-image",verifyToken,removeProfileImage)
+authRoutes.post("/logout",logout)
 
 export default authRoutes;
