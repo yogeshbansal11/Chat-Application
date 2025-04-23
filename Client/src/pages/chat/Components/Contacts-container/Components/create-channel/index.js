@@ -23,7 +23,7 @@ import { useAppStore } from "@/Store";
 
 const HOST = import.meta.env.VITE_SERVER_URL;
 
-const NewDm = () => {
+const CreateChannel  = () => {
   const { setSelectedChatType, setSelectedChatData } = useAppStore();
   const [openNewContactModal, setOpenNewContactModal] = useState(false);
   const [searchedContacts, setSearchedContacts] = useState([]);
