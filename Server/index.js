@@ -6,13 +6,14 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./Routes/Authroute.js";
 import contactsRoutes from "./Routes/ContactRoutes.js";
 import setupSocket from "./socket.js";
+import messagesRoutes from "./Routes/MessagesRoutes.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 9999;
 const databaseURL = process.env.DATABASE_URL;
-const allowedOrigins = process.env.ORIGIN.split(",");
+// const allowedOrigins = process.env.ORIGIN.split(",");
 
 
 const server = app.listen(PORT, () => {
@@ -33,10 +34,14 @@ mongoose
     credentials: true,
   }));
   
-  app.use("/uploads/profile",express.static("uploads/profiles"))
+  app.use("/uploads/profiles",express.static("uploads/profiles"))
+  // app.use("/uploads/files",express.static("uploads/files"))
+  app.use("/uploads/file", express.static("uploads/files"))
+
                                 
   app.use(cookieParser())
   app.use(express.json());
   app.use("/api/auth",authRoutes)
   app.use("/api/contacts",contactsRoutes)
+  app.use("/api/messages",messagesRoutes)
 
