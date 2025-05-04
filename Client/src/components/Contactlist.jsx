@@ -1,6 +1,7 @@
 import { useAppStore } from "@/Store";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { getColor } from "@/lib/utils";
+import { split } from "postcss/lib/list";
 
 const HOST = import.meta.env.VITE_SERVER_URL;
 
@@ -56,10 +57,9 @@ const Contactlist = ({ contacts, isChannel = false }) => {
                     `}
                   >
                     {contact.firstName
-                      ? contact.firstName[0]
-                      : contact.email
-                      ? contact.email[0]
-                      : "G"}
+                      ? contact.firstName.split("").shift()
+                      : contact.email.split("").shift()
+                 }
                   </div>
                 )}
               </Avatar>
@@ -69,11 +69,16 @@ const Contactlist = ({ contacts, isChannel = false }) => {
               <div className="bg-[#ffffff22] h-10 w-10 flex items-center justify-center rounded-full">#</div>
             )}
 
-            <span>
+            
               {isChannel
-                ? contact.name
-                : `${contact.firstName} ${contact.lastName}`}
-            </span>
+                ? ( <span> {contact.name} </span>
+                ) : (
+                // <span>{contact.firstName ?`${contact.firstName} ${contact.lastName}`:contact.email}  <span/>
+                <span>
+  {contact.firstName ? `${contact.firstName} ${contact.lastName}` : contact.email}
+</span>
+
+          )}
           </div>
         </div>
       ))}
