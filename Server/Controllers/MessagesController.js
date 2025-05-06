@@ -1,10 +1,43 @@
 import Message from "../Modules/MessagesModule.js"
+import Channel from "../Modules/ChannelModel.js";
+
 import {mkdirSync, rename, renameSync} from 'fs'
 import path from 'path';
 
-export const getMessages = async (req, res, next) => {
-  try {
 
+
+// export const getChannelMessages = async (req, res) => {
+//   try {
+//     const { channelId } = req.params;
+
+//     if (!channelId) {
+//       return res.status(400).json({ error: "Channel ID is required" });
+//     }
+
+//     const channel = await Channel.findById(channelId).populate({
+//       path: "messages",
+//       populate: {
+//         path: "sender",
+//         select: "name _id", // optional: only pick needed fields
+//       },
+//     });
+
+//     if (!channel) {
+//       return res.status(404).json({ error: "Channel not found" });
+//     }
+
+//     res.status(200).json({ messages: channel.messages });
+//   } catch (error) {
+//     console.error("Error in getChannelMessages:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+
+
+export const getMessages = async (req, res, next) => {
+  console.log('Received request to get messages');
+
+  try {
       const user1 = req.userId;
       const user2 = req.body.id;
 
@@ -34,7 +67,7 @@ export const uploadFile = async (req, res, next) => {
       return res.status(400).send("file is required");
     }
     const date = Date.now();
-    let fileDir = `uploads/file/${date}`
+    let fileDir = `uploads/files/${date}`
     let fileName = `${fileDir}/${req.file.originalname}`
 
     mkdirSync(fileDir,{recursive: true});
@@ -46,32 +79,3 @@ export const uploadFile = async (req, res, next) => {
     return res.status(500).send("Internal server error");
   }
 };
-
-
-
-
-// export const uploadFile = async (req, res, next) => {
-//   try {
-//     if (!req.file) {
-//       return res.status(400).send("File is required");
-//     }
-
-//     const date = Date.now();
-//     const fileDir = path.join(__dirname, `../uploads/file/${date}`);
-//     const fileName = `${fileDir}/${req.file.originalname}`;
-
-//     // Ensure the directory exists
-//     mkdirSync(fileDir, { recursive: true });
-
-//     // Move the uploaded file to the desired directory
-//     renameSync(req.file.path, fileName);
-
-//     // Construct the relative URL for the file (the path to be accessed by the client)
-//     const fileUrl = `/uploads/file/${date}/${req.file.originalname}`;
-
-//     return res.status(200).json({ filePath: fileUrl });
-//   } catch (error) {
-//     console.log({ error });
-//     return res.status(500).send("Internal server error");
-//   }
-// };

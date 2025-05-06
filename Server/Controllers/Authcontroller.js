@@ -26,13 +26,6 @@ export const signup = async (req, res, next) => {
 
     const user = await User.create({ email, password });
 
-    // res.cookie("jwt", createtoken(email, user.id), {
-    //   maxAge: maxage * 1000, // Convert seconds to milliseconds for cookies
-    //   secure: process.env.NODE_ENV === "production",
-    //   httpOnly: true,
-    //   sameSite: "None",
-    // });
-
     res.cookie("jwt", createtoken(email, user.id), {
       maxAge: maxage * 1000,
       secure: false, // ✅ important for localhost (otherwise blocked)
@@ -229,43 +222,6 @@ export const getUserInfo = async (req, res, next) => {
   }
 };
 
-// export const updateProfile = async (req, res, next) => {
-//   try {
-//     const { userId } = req;
-//     const { firstName, lastName, color } = req.body;
-//     // if (!firstName || !lastName ) {
-//     //   return res.status(400).send("FirstName LastName  and color is required.");
-//     // }
-
-//     if (!firstName || !lastName || color === undefined) {
-//       return res.status(400).send("FirstName, LastName, and color are required.");
-//     }
-
-//     const userData = await User.findByIdAndUpdate(
-//       userId,
-//       {
-//         firstName,
-//         lastName,
-//         color,
-//         profileSetup: true,
-//       },
-//       { new: true, runValidators: true }
-//     );
-
-//     return res.status(201).json({
-//       id: userData.id,
-//       email: userData.email,
-//       profileSetup: userData.Profilesetup,
-//       firstName: userData.firstName,
-//       lastName: userData.lastName,
-//       image: userData.image,
-//       color: userData.color,
-//     });
-//   } catch (error) {
-//     console.log({ error });
-//     return res.status(500).send("Internal server error");
-//   }
-// };
 
 export const updateProfile = async (req, res, next) => {
   try {
